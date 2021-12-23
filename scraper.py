@@ -1,18 +1,10 @@
-from urllib.request import urlopen as uReq
-from bs4 import BeautifulSoup as soup 
+import requests 
+from bs4 import BeautifulSoup 
 
 url_prisjakt = "https://www.prisjakt.no/tema/dagens-tilbud"
-
-# Opening up connection, grabbing page 
-uClient = uReq(url_prisjakt)
-page_html = uClient.read()
-uClient.close()
-
-# html parsing 
-page_soup = soup(page_html, "html.parser")
-
-#grabs column with matches 
-containers = page_soup.findAll("div", {"class" : "offer-product"})
-test = []
-title = containers[0].div.p.text
-test.append(title)
+print("Hei")
+html_text = requests.get(url_prisjakt).text
+soup = BeautifulSoup(html_text, 'lxml')
+products = soup.find('ul', class_= 'OffersGrid-sc-812954-0 SEiei DealsGrid-sc-1xqx86j-6 hzxONb deals-grid' )
+print(products)
+print("hris")
