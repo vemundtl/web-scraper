@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+import pandas as pd 
 import time
 
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -14,7 +15,6 @@ best_offers = driver.find_element(By.XPATH, "//a[@class='TopLevelLink-sc-1niqwua
 
 try: 
     best_offers_list = WebDriverWait(driver,50).until(EC.presence_of_element_located((By.XPATH, "//ul[@class='OffersGrid-sc-812954-0 SEiei DealsGrid-sc-1xqx86j-6 hzxONb deals-grid']")))
-    print("hit")
     # offers = best_offers_list.find_elements(By.XPATH, "//li[@class='OffersGridItem-sc-812954-1 jjGPxW']")
     offers = best_offers_list.find_elements(By.XPATH, "//li[@class='OffersGridItem-sc-812954-1 jjGPxW']")
     offers_as_dict = []
@@ -36,11 +36,12 @@ try:
             "price" : price,
         }
         offers_as_dict.append(offer)
-        print("hit5")   
-    for offer in offers_as_dict:
-        print(offer)
+    
 except: 
     print("hei<")
     driver.quit()
 
 driver.quit()
+
+df_data = pd.DataFrame(offers_as_dict)
+df_data
